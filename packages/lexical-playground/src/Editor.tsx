@@ -84,6 +84,7 @@ import TwitterPlugin from './plugins/TwitterPlugin';
 import {VersionsPlugin} from './plugins/VersionsPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
+import ShadowDOMWrapper from './ui/ShadowDOMWrapper';
 
 const COLLAB_DOC_ID = 'main';
 
@@ -107,6 +108,7 @@ export default function Editor(): JSX.Element {
       hasFitNestedTables,
       isCharLimitUtf8,
       isRichText,
+      isShadowDOM,
       showTreeView,
       showTableOfContents,
       shouldUseLexicalContextMenu,
@@ -172,7 +174,9 @@ export default function Editor(): JSX.Element {
           setIsLinkEditMode={setIsLinkEditMode}
         />
       )}
-      <div
+      <ShadowDOMWrapper
+        key={`shadow-${isShadowDOM}`}
+        enabled={isShadowDOM}
         className={`editor-container ${showTreeView ? 'tree-view' : ''} ${
           !isRichText ? 'plain-text' : ''
         }`}>
@@ -311,7 +315,7 @@ export default function Editor(): JSX.Element {
           shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
           useCollabV2={useCollabV2}
         />
-      </div>
+      </ShadowDOMWrapper>
       {showTreeView && <TreeViewPlugin />}
     </>
   );
